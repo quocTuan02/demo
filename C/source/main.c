@@ -116,3 +116,4 @@ void timKiemTheoTen(SV a[], int n, char name[]) {
     }
     printf("khong tim thay");
 }
+
