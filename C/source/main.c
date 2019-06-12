@@ -74,7 +74,6 @@ int main() {
 }
 
 
-
 void nhapN(SV a[], int n) {
     int i;
     printf("\n____________________________________\n");
@@ -99,8 +98,8 @@ void xuat(SV sv) {
 void xuatN(SV a[], int n) {
     int i;
     printf("\n____________________________________\n");
+    printf("\n%-30s%-10s%-15s", "TEN", "TUOI", "LOP");
     for (i = 0; i < n; ++i) {
-        printf("\nThong tin SV thu %d\n", i + 1);
         xuat(a[i]);
     }
     printf("\n____________________________________\n");
@@ -110,6 +109,7 @@ void timKiemTheoTen(SV a[], int n, char name[]) {
     int i;
     for (i = 0; i < n; ++i) {
         if (strcasecmp(name, a[i].ten) == 0) {
+            printf("\n%-30s%-10s%-15s", "TEN", "TUOI", "LOP");
             xuat(a[i]);
             return;
         }
