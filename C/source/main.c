@@ -13,8 +13,6 @@ struct SinhVien {
 
 typedef struct SinhVien SV;
 
-void nhap(SV sv);
-
 void nhapN(SV a[], int n);
 
 void xuat(SV sv);
@@ -33,7 +31,7 @@ int main() {
     } while (n <= 0);
     SV a[n];
     while (true) {
-        printf("******************************************\n");
+        printf("\n******************************************\n");
         printf("**    CHUONG TRINH QUAN LY SINH VIEN    **\n");
         printf("**      1. nhap danh sach sinh vien     **\n");
         printf("**      2. In danh sach sinh vien       **\n");
@@ -48,8 +46,6 @@ int main() {
                 nhapN(a, n);
                 printf("\nBan da nhap thanh cong!");
                 daNhap = true;
-                printf("\nBam phim bat ky de tiep tuc!");
-                getch();
                 break;
             case 2:
                 if (daNhap) {
@@ -58,8 +54,7 @@ int main() {
                 } else {
                     printf("\nNhap DS SV truoc!!!!");
                 }
-                printf("\nBam phim bat ky de tiep tuc!");
-                getch();
+
                 break;
             case 3:
                 printf("nhap ten:");
@@ -67,50 +62,44 @@ int main() {
                 fflush(stdin);
                 gets(name);
                 timKiemTheoTen(a, n, name);
-                printf("\nBam phim bat ky de tiep tuc!");
-                getch();
                 break;
             case 0:
                 printf("\nBan da chon thoat chuong trinh!");
-                getch();
                 return 0;
             default:
                 printf("\nKhong co chuc nang nay!");
-                printf("\nBam phim bat ky de tiep tuc!");
-                getch();
                 break;
         }
     }
 }
 
 
-void nhap(SV sv) {
-    printf("\nNhap ten: ");
-    fflush(stdin);
-    gets(sv.ten);
-    printf("\nNhap tuoi: ");
-    scanf("%d", &sv.tuoi);
-    printf("\nNhap lop: ");
-    fflush(stdin);
-    gets(sv.lop);
-}
 
 void nhapN(SV a[], int n) {
+    int i;
     printf("\n____________________________________\n");
-    for (int i = 0; i < n; ++i) {
+    for (i = 0; i < n; ++i) {
         printf("\nNhap SV thu %d:", i + 1);
-        nhap(a[i]);
+        printf("\nNhap ten: ");
+        fflush(stdin);
+        gets(a[i].ten);
+        printf("Nhap tuoi: ");
+        scanf("%d", &a[i].tuoi);
+        printf("Nhap lop: ");
+        fflush(stdin);
+        gets(a[i].lop);
     }
     printf("\n____________________________________\n");
 }
 
 void xuat(SV sv) {
-    printf("\%-30s%-10d%-15s", sv.ten,sv.tuoi,sv.lop);
+    printf("\n%-30s%-10d%-15s", sv.ten, sv.tuoi, sv.lop);
 }
 
 void xuatN(SV a[], int n) {
+    int i;
     printf("\n____________________________________\n");
-    for (int i = 0; i < n; ++i) {
+    for (i = 0; i < n; ++i) {
         printf("\nThong tin SV thu %d\n", i + 1);
         xuat(a[i]);
     }
@@ -118,7 +107,8 @@ void xuatN(SV a[], int n) {
 }
 
 void timKiemTheoTen(SV a[], int n, char name[]) {
-    for (int i = 0; i < n; ++i) {
+    int i;
+    for (i = 0; i < n; ++i) {
         if (strcasecmp(name, a[i].ten) == 0) {
             xuat(a[i]);
             return;
