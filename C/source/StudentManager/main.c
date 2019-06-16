@@ -1,203 +1,219 @@
 #include <stdio.h>
-#include <conio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
-
-
-struct SinhVien {
-    char ten[30];
-    char gt[5];
+struct User {
+    char name[99];
+    char addres[99];
     int age;
-    float dT, dL, dH;
-    float dtb;
-} ;
+};
+typedef struct User User;
 
-typedef struct SinhVien SV;
+struct Mark {
+    int toan;
+    int ly;
+    int hoa;
+    int sum;
+};
+typedef struct Mark Mark;
 
-void nhap( SV sv);
+struct Student {
+    char id[10];
+    struct User user;
+    char school[100];
+    struct Mark mark;
+};
+typedef struct Student Student;
 
-void nhapN(SV a[], int n);
 
-void xuat(SV sv);
-
-void xuatN(SV a[], int n);
-
-void tinhDTB(SV sv);
-
-void sapxep(SV a[], int n);
-
-void xeploai(SV a);
-
-void xeploaiN(SV a[], int n);
-
-void xuatFile(SV a[], int n, char fileName[]);
-
-int main() {
-    int key;
-    char fileName[] = "DSSV.txt";
-    int n;
-    bool daNhap = false;
-    do {
-        printf("\nNhap so luong SV: ");
-        scanf("%d", &n);
-    } while (n <= 0);
-    SV a[n];
-    while (true) {
-        system("cls");
-        printf("******************************************\n");
-        printf("**    CHUONG TRINH QUAN LY SINH VIEN    **\n");
-        printf("**      1. Nhap du lieu                 **\n");
-        printf("**      2. In danh sach sinh vien       **\n");
-        printf("**      3. Sap xep sinh vien theo DTB   **\n");
-        printf("**      4. Xep loai sinh vien           **\n");
-        printf("**      5. Xuat DS sinh vien            **\n");
-        printf("**      0. Thoat                        **\n");
-        printf("******************************************\n");
-        printf("**       Nhap lua chon cua ban          **\n");
-        scanf("%d", &key);
-        switch (key) {
-            case 1:
-                printf("\nBan da chon nhap DS sinh vien!");
-                nhapN(a, n);
-                printf("\nBan da nhap thanh cong!");
-                daNhap = true;
-                printf("\nBam phim bat ky de tiep tuc!");
-                getch();
-                break;
-            case 2:
-                if (daNhap) {
-                    printf("\nBan da chon xuat DS sinh vien!");
-                    xuatN(a, n);
-                } else {
-                    printf("\nNhap DS SV truoc!!!!");
-                }
-                printf("\nBam phim bat ky de tiep tuc!");
-                getch();
-                break;
-            case 3:
-                if (daNhap) {
-                    printf("\nBan da chon sap xep SV theo STB!");
-                    sapxep(a, n);
-                    xuatN(a, n);
-                } else {
-                    printf("\nNhap DS SV truoc!!!!");
-                }
-                printf("\nBam phim bat ky de tiep tuc!");
-                getch();
-                break;
-            case 4:
-                if (daNhap) {
-                    printf("\nBan da chon thoat xep loai SV!");
-                    xeploaiN(a, n);
-                } else {
-                    printf("\nNhap DS SV truoc!!!!");
-                }
-                printf("\nBam phim bat ky de tiep tuc!");
-                getch();
-                break;
-            case 5:
-                if (daNhap) {
-                    printf("\nBan da chon xuat DS SV!");
-                    xuatFile(a, n, fileName);
-                } else {
-                    printf("\nNhap DS SV truoc!!!!");
-                }
-                printf("\nXuat DSSV thanh cong vao file %s!", fileName);
-                printf("\nBam phim bat ky de tiep tuc!");
-                getch();
-                break;
-            case 0:
-                printf("\nBan da chon thoat chuong trinh!");
-                getch();
-                return 0;
-            default:
-                printf("\nKhong co chuc nang nay!");
-                printf("\nBam phim bat ky de tiep tuc!");
-                getch();
-                break;
-        }
-    }
-}
-
-void tinhDTB(SV sv) {
-    sv.dtb = (sv.dH + sv.dL + sv.dT) / 3;
-}
-
-void nhap(SV sv) {
-    printf("\nNhap ten: ");
+void setStudent(Student *sv) {
     fflush(stdin);
-    gets(sv.ten);
-    printf("\nNhap gioi tinh: ");
-    gets(sv.gt);
-    printf("\nNhap tuoi: ");
-    scanf("%d", &sv.age);
-    printf("\nNhap diem 3 mon: ");
-    scanf("%f%f%f", &sv.dT, &sv.dL, &sv.dH);
-    tinhDTB(sv);
+    printf("So bao danh: ");
+    fflush(stdin);
+    gets(sv->id);
+    printf("Ho va ten: ");
+    fflush(stdin);
+    gets(sv->user.name);
+    printf("Tuoi: ");
+    fflush(stdin);
+    scanf("%d", &sv->user.age);
+    printf("Que quan: ");
+    fflush(stdin);
+    gets(sv->user.addres);
+    printf("Truong:");
+    gets(sv->school);
+    printf("Toan: ");
+    fflush(stdin);
+    scanf("%d", &sv->mark.toan);
+    printf("Ly: ");
+    fflush(stdin);
+    scanf("%d", &sv->mark.ly);
+    printf("Hoa: ");
+    fflush(stdin);
+    scanf("%d", &sv->mark.hoa);
+    sv->mark.sum = sv->mark.toan + sv->mark.ly + sv->mark.hoa;
 }
 
-void nhapN(SV a[], int n) {
-    printf("\n____________________________________\n");
-    for (int i = 0; i < n; ++i) {
-        printf("\nNhap SV thu %d:", i + 1);
-        nhap(a[i]);
+void getStudent(Student *sv) {
+    printf("\n%-10s%-20s%-20s%-20s%-5d%-5d%-5d%-5d",
+           sv->id, sv->user.name, sv->user.addres, sv->school,
+           sv->user.age, sv->mark.toan, sv->mark.ly, sv->mark.hoa
+    );
+}
+
+void inputList(Student *sv, int numberOfStudents) {
+    for (int i = 0; i < numberOfStudents; ++i) {
+        printf("Sinh vien thu : %d/%d\n", i + 1, numberOfStudents);
+        setStudent(&sv[i]);
     }
-    printf("\n____________________________________\n");
 }
 
-void xuat(SV sv) {
-    printf("\nHo ten SV: %s", sv.ten);
-    printf("\nGioi tinh: %s", sv.gt);
-    printf("\nTuoi SV  : %d", sv.age);
-    printf("\nDiem Toan - Ly - Hoa: %.2f - %.2f - %.2f", sv.dT, sv.dL, sv.dH);
-    printf("\nDiem TB: %.2f", sv.dtb);
-}
 
-void xuatN(SV a[], int n) {
-    printf("\n____________________________________\n");
-    for (int i = 0; i < n; ++i) {
-        printf("\nThong tin SV thu %d:", i + 1);
-        xuat(a[i]);
+void printList(Student *list, int numberOfStudents) {
+    printf("\n%-10s%-20s%-20s%-20s%-5s%-5s%-5s%-5s",
+           "SBD", "NAME", "ADDRES", "SCHOOL",
+           "AGE", "TOAN", "LY", "HOA");
+    for (int i = 0; i < numberOfStudents; ++i) {
+        getStudent(&list[i]);
     }
-    printf("\n____________________________________\n");
 }
 
-void sapxep(SV a[], int n) {
-    //Sap xep theo DTB tang dan
-    SV tmp;
-    for (int i = 0; i < n; ++i) {
-        for (int j = i + 1; j < n; ++j) {
-            if (a[i].dtb > a[j].dtb) {
-                tmp = a[i];
-                a[i] = a[j];
-                a[j] = tmp;
+void sortByTotaScore(Student *sv, int numberOfStudents) {
+    for (int i = 0; i < numberOfStudents - 1; ++i) {
+        for (int j = i + 1; j < numberOfStudents; ++j) {
+            if (sv[i].mark.sum < sv[j].mark.sum) {
+                Student temp = sv[i];
+                sv[i] = sv[j];
+                sv[j] = temp;
             }
         }
     }
 }
 
-void xeploai(SV sv) {
-    if (sv.dtb >= 8) printf("Gioi");
-    else if (sv.dtb >= 6.5) printf("Kha");
-    else if (sv.dtb >= 4) printf("Trung binh");
-    else printf("Yeu");
+void printByMark(Student *sv, int numberOfStudents, int totaScore) {
+    for (int i = 0; i < numberOfStudents; ++i) {
+        if (sv[i].mark.sum >= totaScore) {
+            getStudent(&sv[i]);
+        }
+    }
 }
 
-void xeploaiN(SV a[], int n) {
-    printf("\n____________________________________\n");
-    for (int i = 0; i < n; ++i) {
-        printf("\nXep loai cua SV thu %d la: ", i + 1);
-        xeploai(a[i]);
-    }
-    printf("\n____________________________________\n");
+void add(Student *list, int *numberOfStudents) {
+    (*numberOfStudents)++;
+    list = realloc(list, (*numberOfStudents) * sizeof(Student));
+    setStudent((list+*numberOfStudents-1));
 }
 
-void xuatFile(SV a[], int n, char fileName[]) {
-    FILE *fp;
-    fp = fopen(fileName, "w");
-    fprintf(fp, "%20s%5s%5s%10s%10s%10s%10s\n", "Ho Ten", "GT", "Tuoi", "DT", "DL", "DH", "DTB");
-    for (int i = 0; i < n; i++) {
-        fprintf(fp, "%20s%5s%5d%10f%10f%10f%10f\n", a[i].ten, a[i].gt, a[i].age, a[i].dT, a[i].dL, a[i].dH, a[i].dtb);
+void removeByIndex(Student *list, int *numberOfStudents, int index) {
+    for (int i = index + 1; i < *numberOfStudents; ++i) {
+        list[i - 1] = list[i];
     }
-    fclose(fp);
+    (*numberOfStudents)--;
+    list = realloc(list, (*numberOfStudents) * sizeof(Student));
+}
+
+int searchByName(Student *list, int *numberOfStudents, char name[]){
+    for (int i = 0; i < *numberOfStudents ; ++i) {
+        if (strcasecmp(list->user.name,name)==0){
+            return i;
+        }
+    }
+    return -1;
+}
+
+
+
+int main() {
+    int *numberOfStudents;
+    Student *student;
+    int choose;
+    printf("Tong so hoc sinh: ");
+    scanf("%d", numberOfStudents);
+    student = (Student *) malloc(*numberOfStudents * sizeof(Student));
+    while(true){
+        printf("\n-----MENU----"
+               "\n1. Nhap danh sach sinh vien."
+               "\n2. Danh sach sinh vien."
+               "\n3. Danh sach sinh vien co tong diem 3 mon lơn hon 15."
+               "\n4. Tim sinh vien theo ten."
+               "\n5. Xoa xinh vien theo ten."
+               "\n6. Sap xep sinh vien theo tong diem."
+               "\n0. Thoat.\n"
+               );
+
+        switch (choose){
+            case 1:{
+                inputList(student,*numberOfStudents);
+                getch();
+                break;
+            }
+            case 2:{
+                printList(student,*numberOfStudents);
+                getch();
+                break;
+            }
+            case 3:{
+
+                getch();
+                break;
+            }
+            case 4:{
+                getch();
+                break;
+            }
+            case 5:{
+                getch();
+                break;
+            }
+            case 6:{
+                getch();
+                break;
+            }
+            case 0:{
+                exit(0);
+            }
+            default:{
+                printf("chon sai cmnr @@@");
+            }
+
+        }
+
+    }
+
+//    printf("\n***********************\n");
+//    inputList(student, *numberOfStudents);
+//    printf("\n***********************\n");
+//    printList(student, *numberOfStudents);
+//    printf("\n***********************\n");
+//    add(student, numberOfStudents);
+//    printf("\n***********************\n");
+//    printList(student, *numberOfStudents);
+//    printf("\n***********************\n");            03c83naj406036j
+//    removeByIndex(student, numberOfStudents, 0);
+//    printf("\n***********************\n");
+//    printList(student, *numberOfStudents);
+
+    free(student);
+
+
+
+
+
+//    int n,x,p=0;
+//    printf("value n:");
+//    scanf("%d",&n);
+//    printf("value x:");
+//    scanf("%d",&x);
+//    int a[n+1];
+//    for (int j = n; j >=0 ; j--) {
+//        printf("value a[%d]:",j);
+//        scanf("%d",&a[j]);
+//    }
+//
+//    for (int i = n; i > 0; i--) {
+//        p=(p+a[i])*x;
+//    }
+//    p+=a[0];
+//    printf("%d",p);
+
 }
