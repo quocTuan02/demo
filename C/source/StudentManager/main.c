@@ -2,6 +2,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <conio.h>
+
 struct User {
     char name[99];
     char addres[99];
@@ -91,6 +93,9 @@ void sortByTotaScore(Student *sv, int numberOfStudents) {
 }
 
 void printByMark(Student *sv, int numberOfStudents, int totaScore) {
+    printf("\n%-10s%-20s%-20s%-20s%-5s%-5s%-5s%-5s",
+           "SBD", "NAME", "ADDRES", "SCHOOL",
+           "AGE", "TOAN", "LY", "HOA");
     for (int i = 0; i < numberOfStudents; ++i) {
         if (sv[i].mark.sum >= totaScore) {
             getStudent(&sv[i]);
@@ -101,7 +106,7 @@ void printByMark(Student *sv, int numberOfStudents, int totaScore) {
 void add(Student *list, int *numberOfStudents) {
     (*numberOfStudents)++;
     list = realloc(list, (*numberOfStudents) * sizeof(Student));
-    setStudent((list+*numberOfStudents-1));
+    setStudent((list + *numberOfStudents - 1));
 }
 
 void removeByIndex(Student *list, int *numberOfStudents, int index) {
@@ -112,15 +117,14 @@ void removeByIndex(Student *list, int *numberOfStudents, int index) {
     list = realloc(list, (*numberOfStudents) * sizeof(Student));
 }
 
-int searchByName(Student *list, int *numberOfStudents, char name[]){
-    for (int i = 0; i < *numberOfStudents ; ++i) {
-        if (strcasecmp(list->user.name,name)==0){
+int searchByName(Student *list, int numberOfStudents, char name[]) {
+    for (int i = 0; i < numberOfStudents; ++i) {
+        if (strcasecmp(list[i].user.name, name) == 0) {
             return i;
         }
     }
     return -1;
 }
-
 
 
 int main() {
@@ -130,55 +134,92 @@ int main() {
     printf("Tong so hoc sinh: ");
     scanf("%d", numberOfStudents);
     student = (Student *) malloc(*numberOfStudents * sizeof(Student));
-    while(true){
+    while (true) {
         printf("\n-----MENU----"
                "\n1. Nhap danh sach sinh vien."
                "\n2. Danh sach sinh vien."
                "\n3. Danh sach sinh vien co tong diem 3 mon lơn hon 15."
                "\n4. Tim sinh vien theo ten."
                "\n5. Xoa xinh vien theo ten."
-               "\n6. Sap xep sinh vien theo tong diem."
-               "\n0. Thoat.\n"
-               );
+               "\n6. Them moi 1 sinh vien"
+               "\n7. Sap xep sinh vien theo tong diem tu cao den thap."
+               "\n0. Thoat."
+               "\n Choose: "
 
-        switch (choose){
-            case 1:{
-                inputList(student,*numberOfStudents);
-                getch();
+        );
+        scanf("%d", &choose);
+        fflush(stdin);
+        switch (choose) {
+            case 1: {
+                inputList(student, *numberOfStudents);
+                //getch();
                 break;
             }
-            case 2:{
-                printList(student,*numberOfStudents);
-                getch();
+            case 2: {
+                printList(student, *numberOfStudents);
+                // getch();
                 break;
             }
-            case 3:{
+            case 3: {
+                printByMark(student, *numberOfStudents, 15);
+                // getch();
+                break;
+            }
+            case 4: {
 
-                getch();
+                char name[55];
+                printf("name:");
+                fflush(stdin);
+                gets(name);
+                int index = searchByName(student, *numberOfStudents, name);
+                if (index >= 0) {
+                    printf("\n%-10s%-20s%-20s%-20s%-5s%-5s%-5s%-5s",
+                           "SBD", "NAME", "ADDRES", "SCHOOL",
+                           "AGE", "TOAN", "LY", "HOA");
+                    getStudent(&student[index]);
+                } else printf("khong tim thay");
+                // getch();
                 break;
             }
-            case 4:{
-                getch();
+            case 5: {
+                char name[55];
+                printf("name:");
+                fflush(stdin);
+                gets(name);
+                int index = searchByName(student, *numberOfStudents, name);
+                if (index >= 0) {
+                    removeByIndex(student, numberOfStudents, index);
+                    printf("thanh cong !");
+                } else printf("That bai @@");
+                //  getch();
                 break;
             }
-            case 5:{
-                getch();
+            case 6: {
+
+                add(student, numberOfStudents);
+
+                //getch();
                 break;
             }
-            case 6:{
-                getch();
+            case 7: {
+                sortByTotaScore(student, *numberOfStudents);
+                //getch();
                 break;
             }
-            case 0:{
+            case 0: {
                 exit(0);
             }
-            default:{
+            default: {
                 printf("chon sai cmnr @@@");
             }
-
         }
-
     }
+
+    free(student);
+
+}
+
+
 
 //    printf("\n***********************\n");
 //    inputList(student, *numberOfStudents);
@@ -193,7 +234,7 @@ int main() {
 //    printf("\n***********************\n");
 //    printList(student, *numberOfStudents);
 
-    free(student);
+//    free(student);
 
 
 
@@ -216,4 +257,3 @@ int main() {
 //    p+=a[0];
 //    printf("%d",p);
 
-}
